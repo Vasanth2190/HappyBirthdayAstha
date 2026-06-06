@@ -166,12 +166,10 @@ body{
 
     display:none;
 
-    position:fixed;
+    width:100%;
+    max-width:320px;
 
-    top:20px;
-    right:20px;
-
-    width:320px;
+    margin:25px auto 0 auto;
 
     background:#121212;
 
@@ -182,10 +180,7 @@ body{
     border-radius:24px;
 
     box-shadow:0 10px 25px rgba(0,0,0,.4);
-
-    z-index:999;
 }
-
 #albumArt{
 
     width:180px;
@@ -412,21 +407,21 @@ body{
 
 function startJourney(){
 
-    document.getElementById("readyScreen").style.display="none";
+    document.querySelector(".buttonRow").style.display="none";
 
     document.getElementById("musicPlayer").style.display="block";
 
     audio.play();
 
     showMessage("Great! 🎉",1500,()=>{
-
         showMessage("Happy Birthday! 🎂🤍",2500,()=>{
 
             document.getElementById("messageScreen").style.display="none";
 document.body.style.background =
 'url("sry.png") center center/cover no-repeat fixed';
 
-            document.getElementById("forgiveScreen").style.display="block";
+            document.getElementById("readyScreen").style.display="none";
+document.getElementById("forgiveScreen").style.display="block";
 
         });
 
