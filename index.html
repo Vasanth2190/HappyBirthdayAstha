@@ -160,162 +160,7 @@ body{
     top:150px;
 }
 
-/* Spotify Player */
 
-#musicPlayer{
-
-    display:none;
-
-    width:100%;
-    max-width:320px;
-
-    margin:30px auto 0 auto;
-
-    background:#121212;
-
-    color:white;
-
-    padding:18px;
-
-    border-radius:24px;
-
-    box-shadow:0 10px 25px rgba(0,0,0,.4);
-}
-#albumArt{
-
-    width:180px;
-    height:180px;
-
-    object-fit:cover;
-
-    border-radius:15px;
-
-    display:block;
-
-    margin:auto;
-}
-
-#songTitle{
-
-    margin-top:12px;
-
-    font-size:14px;
-}
-
-#artist{
-
-    color:#b3b3b3;
-
-    font-size:12px;
-
-    margin-bottom:12px;
-}
-
-/* Visualizer */
-
-#visualizer{
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:flex-end;
-
-    gap:3px;
-
-    height:25px;
-
-    margin-bottom:15px;
-}
-
-.bar{
-
-    width:4px;
-
-    background:#ff8fc7;
-
-    border-radius:10px;
-
-    animation:bounce .8s infinite alternate;
-}
-
-.bar:nth-child(2){animation-delay:.1s;}
-.bar:nth-child(3){animation-delay:.2s;}
-.bar:nth-child(4){animation-delay:.3s;}
-.bar:nth-child(5){animation-delay:.4s;}
-.bar:nth-child(6){animation-delay:.2s;}
-.bar:nth-child(7){animation-delay:.1s;}
-
-@keyframes bounce{
-
-    from{height:6px;}
-    to{height:22px;}
-}
-
-.paused .bar{
-    animation-play-state:paused;
-}
-
-/* Progress */
-
-#progressBar{
-
-    width:100%;
-
-    accent-color:#ff8fc7;
-}
-
-#timeDisplay{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    margin-top:5px;
-
-    color:#b3b3b3;
-
-    font-size:12px;
-}
-
-/* Play Pause */
-
-#playPauseBtn{
-
-    width:60px;
-    height:60px;
-
-    border:none;
-
-    border-radius:50%;
-
-    background:#ff8fc7;
-
-    color:white;
-
-    font-size:24px;
-
-    cursor:pointer;
-
-    margin-top:15px;
-}
-
-@media(max-width:768px){
-
-    #musicPlayer{
-
-        width:260px;
-
-        right:10px;
-        top:10px;
-    }
-
-    #albumArt{
-
-        width:120px;
-        height:120px;
-    }
-}
 
 </style>
 </head>
@@ -367,69 +212,38 @@ body{
 
     </div>
 
-</div></div>
-<div id="musicPlayer">
-
-    <img src="1stcover.jpg" id="albumArt">
-
-    <div id="songTitle">Love me More</div>
-
-    <div id="artist">Mitski</div>
-
-    <div id="visualizer">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-    </div>
-
-    <input type="range" id="progressBar" value="0" min="0" max="100">
-
-    <div id="timeDisplay">
-        <span id="currentTime">0:00</span>
-        <span id="duration">0:00</span>
-    </div>
-
-    <button id="playPauseBtn">⏸</button>
-
-</div>
-
-
+</div> 
 <audio id="bgMusic">
     <source src="1st.mp3" type="audio/mpeg">
 </audio>
-
+</div>
 <script>
 
 /* ---------- Journey Flow ---------- */
 
 function startJourney(){
 
-    document.querySelector(".buttonRow").style.display="none";
+    document.getElementById("readyScreen").style.display="none";
 
-    document.getElementById("musicPlayer").style.display="block";
+    const audio = document.getElementById("bgMusic");
 
-    audio.play();
+    audio.play().catch(()=>{});
 
     showMessage("Great! 🎉",1500,()=>{
+
         showMessage("Happy Birthday! 🎂🤍",2500,()=>{
 
             document.getElementById("messageScreen").style.display="none";
-document.body.style.background =
-'url("sry.png") center center/cover no-repeat fixed';
 
-            document.getElementById("readyScreen").style.display="none";
-document.getElementById("forgiveScreen").style.display="block";
+            document.body.style.background =
+            'url("sry.png") center center/cover no-repeat fixed';
+
+            document.getElementById("forgiveScreen").style.display="block";
 
         });
 
     });
-}
-
-function showMessage(text,time,next){
+}function showMessage(text,time,next){
 
     const screen=document.getElementById("messageScreen");
 
@@ -510,72 +324,6 @@ document.getElementById("yesBtn").addEventListener("click",()=>{
 
 });
 
-/* ---------- Music Player ---------- */
-
-const audio=document.getElementById("bgMusic");
-
-const playPauseBtn=document.getElementById("playPauseBtn");
-
-const progressBar=document.getElementById("progressBar");
-
-const currentTime=document.getElementById("currentTime");
-
-const duration=document.getElementById("duration");
-
-const player=document.getElementById("musicPlayer");
-
-playPauseBtn.addEventListener("click",()=>{
-
-    if(audio.paused){
-
-        audio.play();
-
-        playPauseBtn.innerHTML="⏸";
-
-        player.classList.remove("paused");
-
-    }else{
-
-        audio.pause();
-
-        playPauseBtn.innerHTML="▶";
-
-        player.classList.add("paused");
-    }
-});
-
-audio.addEventListener("loadedmetadata",()=>{
-
-    duration.textContent=formatTime(audio.duration);
-});
-
-audio.addEventListener("timeupdate",()=>{
-
-    progressBar.value=
-    (audio.currentTime/audio.duration)*100;
-
-    currentTime.textContent=
-    formatTime(audio.currentTime);
-});
-
-progressBar.addEventListener("input",()=>{
-
-    audio.currentTime=
-    (progressBar.value/100)*audio.duration;
-});
-
-function formatTime(seconds){
-
-    let mins=Math.floor(seconds/60);
-
-    let secs=Math.floor(seconds%60);
-
-    if(secs<10){
-        secs="0"+secs;
-    }
-
-    return mins+":"+secs;
-}
 
 </script>
 
