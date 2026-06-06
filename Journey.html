@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ass Pasta 😝</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Borel&display=swap" rel="stylesheet">
+
+  <style>
+    body { margin:0; background:#0f0f0f; font-family:"Borel",cursive; overflow-x:hidden; }
+
+    h1 { text-align:center; color:black; padding:20px; letter-spacing:4px; position:relative; z-index:5; }
+
+    .intro { position:fixed; inset:0; background:url('b.png') center/cover no-repeat; display:flex; align-items:center; justify-content:center; z-index:2000; }
+    .intro::after { content:''; position:absolute; inset:0; background:rgba(0,0,0,0.5); pointer-events:none; }
+
+    .continue-btn { position:relative; z-index:2; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.4); color:white; font-size:20px; padding:15px 30px; cursor:pointer; border-radius:10px; backdrop-filter:blur(10px); transition:0.3s; }
+    .continue-btn:hover { transform:scale(1.1); background:rgba(255,255,255,0.3); }
+
+    .main { display:none; background:url('j.png') center/cover fixed repeat; min-height:100vh; }
+
+    .gallery { position:relative; z-index:1; column-count:4; column-gap:25px; max-width:1400px; margin:auto; padding:30px; transform:scale(1.05); }
+    @media (max-width:1000px){ .gallery{column-count:3; transform:scale(1.03);} }
+    @media (max-width:600px){ .gallery{column-count:2; transform:scale(1);} }
+
+    .polaroid { background:white; padding:10px 10px 25px 10px; margin-bottom:20px; break-inside:avoid; box-shadow:0 10px 25px rgba(0,0,0,0.5); transform:translateY(40px) rotate(var(--rotate)); transition:all 0.4s ease; opacity:0; }
+    .polaroid.show { opacity:1; transform:translateY(0) rotate(var(--rotate)); }
+    .polaroid:hover { transform:scale(1.05) rotate(0deg); box-shadow:0 20px 40px rgba(0,0,0,0.8); }
+
+    .polaroid img, .polaroid video { width:100%; height:auto; display:block; }
+
+    .caption { text-align:center; margin-top:8px; font-size:15px; }
+
+    .lightbox { position:fixed; inset:0; background:rgba(0,0,0,0.9); display:flex; justify-content:center; align-items:center; visibility:hidden; opacity:0; transition:0.3s; z-index:9999; }
+    .lightbox.active { visibility:visible; opacity:1; }
+
+    .lightbox-content { 
+      position:relative; 
+      z-index:10000; 
+      background:transparent; 
+      padding:0; 
+      max-width:none; 
+      overflow:visible; 
+    }
+
+    .lightbox img, .lightbox video { 
+      max-width:90vw; 
+      max-height:90vh; 
+      object-fit:contain; 
+      transition:transform 0.2s ease; 
+    }
+
+    /* 🔥 LOADER */
+    #loader {
+      position:fixed;
+      inset:0;
+      background:#0f0f0f;
+      color:white;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      font-size:22px;
+      z-index:3000;
+      opacity:0;
+      pointer-events:none;
+      transition:0.5s;
+    }
+/* Hall Title */
+
+.memory-title{
+    display:block;
+    width:fit-content;
+    margin:25px auto;
+
+    margin:25px auto;
+
+    padding:18px 35px;
+
+    background:rgba(255,255,255,0.22);
+
+    backdrop-filter:blur(8px);
+
+    border-radius:25px;
+
+    color:black;
+
+    text-align:center;
+
+    text-shadow:0 2px 10px rgba(255,255,255,0.4);
+}
+
+/* Spotify Player */
+
+#musicPlayer{
+
+    display:none;
+
+    position:fixed;
+
+    top:20px;
+    right:20px;
+
+    width:300px;
+
+    background:#121212;
+
+    color:white;
+
+    padding:18px;
+
+    border-radius:22px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.4);
+
+    z-index:5000;
+}
+
+#albumArt{
+
+    width:160px;
+    height:160px;
+
+    object-fit:cover;
+
+    border-radius:14px;
+
+    display:block;
+
+    margin:auto;
+}
+
+#songTitle{
+
+    margin-top:12px;
+
+    font-size:14px;
+
+    text-align:center;
+}
+
+#artist{
+
+    color:#b3b3b3;
+
+    font-size:12px;
+
+    text-align:center;
+
+    margin-bottom:12px;
+}
+
+#visualizer{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:flex-end;
+
+    gap:3px;
+
+    height:25px;
+
+    margin-bottom:12px;
+}
+
+.bar{
+
+    width:4px;
+
+    background:#ff8fc7;
+
+    border-radius:10px;
+
+    animation:bounce .8s infinite alternate;
+}
+
+.bar:nth-child(2){animation-delay:.1s;}
+.bar:nth-child(3){animation-delay:.2s;}
+.bar:nth-child(4){animation-delay:.3s;}
+.bar:nth-child(5){animation-delay:.4s;}
+.bar:nth-child(6){animation-delay:.2s;}
+.bar:nth-child(7){animation-delay:.1s;}
+
+@keyframes bounce{
+
+    from{height:6px;}
+    to{height:22px;}
+}
+
+.paused .bar{
+    animation-play-state:paused;
+}
+
+#progressBar{
+
+    width:100%;
+
+    accent-color:#ff8fc7;
+}
+
+#timeDisplay{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-top:5px;
+
+    color:#b3b3b3;
+
+    font-size:12px;
+}
+
+#playPauseBtn{
+
+    width:60px;
+    height:60px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#ff8fc7;
+
+    color:white;
+
+    font-size:24px;
+
+    cursor:pointer;
+
+    display:block;
+
+    margin:15px auto 0;
+}
+
+@media(max-width:768px){
+
+    #musicPlayer{
+
+        width:250px;
+
+        top:10px;
+        right:10px;
+    }
+
+    #albumArt{
+
+        width:120px;
+        height:120px;
+    }
+}
+.disclaimer{
+
+    width:fit-content;
+
+    margin:50px auto 80px;
+
+    padding:20px 30px;
+
+    background:rgba(255,255,255,0.18);
+
+    backdrop-filter:blur(8px);
+
+    border-radius:20px;
+
+    color:black;
+
+    text-align:center;
+
+    font-size:18px;
+
+    box-shadow:0 8px 20px rgba(0,0,0,0.15);
+}
+
+  </style>
+</head>
+<body>
+
+<div class="intro" id="intro">
+  <button class="continue-btn" id="continueBtn">Continue</button>
+</div>
+
+<!-- 🔥 LOADER -->
+<div id="loader">Loading memories...</div>
+
+<audio id="bgMusic" src="j.mp3" loop></audio>
+
+<div id="musicPlayer">
+
+  <img src="1stcover.jpg" id="albumArt">
+
+  <div id="songTitle">A Loving Feeling</div>
+
+  <div id="artist">Mitski</div>
+
+  <div id="visualizer">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+  </div>
+
+  <input type="range" id="progressBar" value="0" min="0" max="100">
+
+  <div id="timeDisplay">
+      <span id="currentTime">0:00</span>
+      <span id="duration">0:00</span>
+  </div>
+
+  <button id="playPauseBtn">⏸</button>
+
+</div>
+
+
+<div class="main" id="mainContent">
+  
+<h1 class="memory-title">
+  Hall of Memories and Hotties ❤️
+</h1>
+
+  <div class="gallery" id="gallery"></div>
+
+<div class="disclaimer">
+  <b>Disclaimer 😂</b><br>
+  Don't ask me why or how I have these pictures.<br>
+  Honestly i dont know either<br>
+They just somehow appeared in my gallery. 🤷‍♂️<br>
+Hope you liked it ❤️
+</div>
+</div>
+
+<div class="lightbox" id="lightbox">
+  <div class="lightbox-content" id="lightboxContent">
+    <button id="prev" style="position:absolute; left:-40px; top:50%; transform:translateY(-50%); font-size:25px;">⟨</button>
+    <button id="next" style="position:absolute; right:-40px; top:50%; transform:translateY(-50%); font-size:25px;">⟩</button>
+    <div id="mediaContainer"></div>
+    <div class="caption" id="lightboxCaption"></div>
+  </div>
+</div>
+
+<script>
+const gallery = document.getElementById("gallery");
+const lightbox = document.getElementById("lightbox");
+const mediaContainer = document.getElementById("mediaContainer");
+const lightboxCaption = document.getElementById("lightboxCaption");
+
+let currentIndex = 0;
+
+const intro = document.getElementById("intro");
+const main = document.getElementById("mainContent");
+const btn = document.getElementById("continueBtn");
+const music = document.getElementById("bgMusic");
+const loader = document.getElementById("loader");
+
+// ===== DATA (UNCHANGED) =====
+const images = [ { src:"1.jpg", caption:"Goth Baddie vibes😂", type:"image" },
+{ src:"2.jpg", caption:"Cute Nerd🤓☝️", type:"image" },
+{ src:"3.jpg", caption:"Definition of Sun kissed beauty", type:"image" },
+{ src:"4.jpeg", caption:"Bbg got some RIZZ", type:"image" },
+{ src:"5.jpeg", caption:"Saved it for science...Also cause i love batman hehe😝", type:"image" },
+{ src:"6.mp4", caption:"Mr busy🥺", type:"video" },
+{ src:"7.mp4", caption:"fooled me there ngl😂", type:"video" },
+{ src:"8.mp4", caption:"This one feels like a excuse to send a cute video😏", type:"video" },
+{ src:"9.mp4", caption:"4am Phase", type:"video" },
+{ src:"10.jpeg", caption:"all this time spent together just stand like idiots😂", type:"image" },
+ ];
+
+// SAFE preload
+images.forEach(img=>{
+  if(img.type==="image"){
+    const pre=new Image();
+    pre.src=img.src;
+    pre.onerror=()=>console.warn("Missing:", img.src);
+  }
+});
+
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{ if(entry.isIntersecting){ entry.target.classList.add("show"); }});
+},{threshold:0.1});
+
+images.forEach((img,index)=>{
+  const div=document.createElement("div");
+  div.className="polaroid";
+  div.style.setProperty("--rotate",`${Math.random()*10-5}deg`);
+
+  div.innerHTML = img.type==="video"
+  ? `<video
+        src="${img.src}"
+        muted
+        playsinline
+        autoplay
+        loop
+        preload="none"
+       style=""
+     ></video>
+     <div class="caption">${img.caption}</div>`
+  : `<img src="${img.src}" loading="lazy">
+     <div class="caption">${img.caption}</div>`;
+  div.onclick=()=>{ currentIndex=index; openMedia(); };
+
+  gallery.appendChild(div);
+  observer.observe(div);
+});
+
+function openMedia(){
+  const item=images[currentIndex];
+  lightbox.classList.add("active");
+  mediaContainer.innerHTML="";
+
+  if(item.type==="video"){
+    mediaContainer.innerHTML=`
+<video
+    src="${item.src}"
+    controls
+    autoplay
+    loop
+    style=""
+></video>`;
+  } else {
+    mediaContainer.innerHTML=`<img id="lbMedia" src="${item.src}">`;
+
+    const el = document.getElementById('lbMedia');
+    let scale = 1;
+
+    el.addEventListener('wheel', (e)=>{
+      e.preventDefault();
+      scale += e.deltaY * -0.0015;
+      scale = Math.min(Math.max(1, scale), 4);
+      el.style.transform = `scale(${scale})`;
+    }, { passive:false });
+
+    el.addEventListener('dblclick', ()=>{
+      scale=1;
+      el.style.transform="scale(1)";
+    });
+  }
+
+  lightboxCaption.textContent=item.caption;
+}
+
+prev.onclick=(e)=>{ e.stopPropagation(); currentIndex=(currentIndex-1+images.length)%images.length; openMedia(); };
+next.onclick=(e)=>{ e.stopPropagation(); currentIndex=(currentIndex+1)%images.length; openMedia(); };
+
+lightbox.onclick=()=>{ lightbox.classList.remove("active"); mediaContainer.innerHTML=""; };
+
+// 🔥 LOADING LOGIC
+btn.onclick = async ()=>{
+
+  music.play().catch(err=>{
+    console.log(err);
+  });
+
+  document.getElementById("musicPlayer").style.display = "block";
+
+  loader.style.opacity="1";
+  loader.style.pointerEvents="all";
+
+  const preload = images.slice(0,6).map(img=>{
+    return new Promise(res=>{
+      if(img.type==="image"){
+        const i=new Image();
+        i.src=img.src;
+        i.onload=res;
+        i.onerror=res;
+      }else{
+        res();
+      }
+    });
+  });
+
+  await Promise.all(preload);
+
+  intro.style.display="none";
+  main.style.display="block";
+
+  setTimeout(()=>{
+    loader.style.opacity="0";
+    loader.style.pointerEvents="none";
+  },300);
+};  
+  const playPauseBtn=document.getElementById("playPauseBtn");
+const progressBar=document.getElementById("progressBar");
+const currentTime=document.getElementById("currentTime");
+const duration=document.getElementById("duration");
+const player=document.getElementById("musicPlayer");
+
+playPauseBtn.addEventListener("click",()=>{
+
+    if(music.paused){
+
+        music.play();
+
+        playPauseBtn.innerHTML="⏸";
+
+        player.classList.remove("paused");
+
+    }else{
+
+        music.pause();
+
+        playPauseBtn.innerHTML="▶";
+
+        player.classList.add("paused");
+    }
+});
+
+music.addEventListener("loadedmetadata",()=>{
+
+    duration.textContent=formatTime(music.duration);
+});
+
+music.addEventListener("timeupdate",()=>{
+
+    progressBar.value=
+    (music.currentTime/music.duration)*100;
+
+    currentTime.textContent=
+    formatTime(music.currentTime);
+});
+
+progressBar.addEventListener("input",()=>{
+
+    music.currentTime=
+    (progressBar.value/100)*music.duration;
+});
+
+function formatTime(seconds){
+
+    let mins=Math.floor(seconds/60);
+
+    let secs=Math.floor(seconds%60);
+
+    if(secs<10){
+        secs="0"+secs;
+    }
+
+    return mins+":"+secs;
+}
+
+
+</script>
+
+</body>
+</html>
