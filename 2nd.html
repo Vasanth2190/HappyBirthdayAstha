@@ -1,0 +1,583 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>A Letter For You 🤍</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Playwrite+AU+NSW:wght@400&display=swap" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:url("b.png") center center/cover no-repeat fixed;
+    min-height:100vh;
+    padding:30px 15px;
+    text-align:center;
+}
+
+/* Opening Text */
+#instruction{
+    font-family:"Playwrite AU NSW", cursive;
+    font-size:clamp(16px,3vw,24px);
+    margin-bottom:20px;
+}
+
+/* Main Stage */
+#stage{
+    width:100%;
+    max-width:900px;
+    margin:auto;
+}
+
+.stage-img{
+    width:100%;
+    display:block;
+}
+
+/* Letter */
+#letterContainer{
+    display:none;
+    width:100%;
+}
+
+
+/* Entire Letter Image */
+.letter-page{
+
+    width:100%;
+    max-width:941px;
+    margin:auto;
+
+    background:url("letter.png") center top no-repeat;
+    background-size:100% auto;
+
+    aspect-ratio:941 / 1671;
+
+    box-sizing:border-box;
+
+    /* Text starts below birthday heading */
+    padding-top:45%;
+    padding-left:11%;
+    padding-right:11%;
+    padding-bottom:10%;
+}
+
+/* Text Layer */
+
+#letterText{
+
+    font-family:'Dancing Script', cursive;
+
+    font-size:clamp(15px,2vw,25px);
+
+    line-height:1.9;
+
+    text-align:left;
+
+    color:#4a3a3a;
+
+    background:rgba(255,255,255,0.4);
+
+    padding:18px;
+
+    border-radius:18px;
+}
+
+
+#letterText div{
+    margin-bottom:12px;
+}
+
+/* Continue Frame */
+#continueFrame{
+    display:none;
+
+    margin:40px auto;
+
+    width:100%;
+    max-width:500px;
+
+    justify-content:center;
+    align-items:center;
+}
+
+/* Pink Birthday Button */
+#continueBtn{
+
+    font-family:"Playwrite AU NSW", cursive;
+
+    background:linear-gradient(
+        135deg,
+        #ffb6d9,
+        #ff8fc7
+    );
+
+    color:white;
+
+    border:none;
+
+    padding:18px 40px;
+
+    font-size:clamp(16px,2vw,22px);
+
+    border-radius:50px;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 8px 20px rgba(255,105,180,0.35);
+
+    transition:all 0.3s ease;
+}
+
+#continueBtn:hover{
+
+    transform:translateY(-3px) scale(1.05);
+
+    box-shadow:
+        0 12px 25px rgba(255,105,180,0.5);
+}
+
+#continueBtn:active{
+
+    transform:scale(0.98);
+}
+
+/* Mobile */
+@media(max-width:768px){
+
+    #continueBtn{
+
+        padding:16px 32px;
+
+        font-size:16px;
+    }
+}
+
+
+
+/* Mobile Fixes */
+@media(max-width:768px){
+
+    .letter-page{
+
+        width:100%;
+        max-width:100%;
+
+        padding-top:24%;
+        padding-left:10%;
+        padding-right:10%;
+        padding-bottom:10%;
+    }
+
+    #letterText{
+        font-size:clamp(11px,3.3vw,15px);
+        line-height:1.7;
+    }
+
+    #continueFrame{
+        height:110px;
+    }
+}
+
+/* Music Player */
+
+#musicPlayer{
+
+    display:none;
+
+    width:320px;
+
+    margin:30px auto;
+
+    background:#121212;
+
+    color:white;
+
+    padding:20px;
+
+    border-radius:25px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,0.35);
+
+    text-align:center;
+}
+
+#albumArt{
+
+    width:180px;
+    height:180px;
+
+    object-fit:cover;
+
+    border-radius:15px;
+
+    display:block;
+
+    margin:0 auto 15px;
+}
+
+#songTitle{
+
+    font-family:"Playwrite AU NSW", cursive;
+
+    font-size:14px;
+
+    color:white;
+
+    margin-bottom:5px;
+}
+
+#artistName{
+
+    color:#b3b3b3;
+
+    font-size:12px;
+
+    margin-bottom:15px;
+}
+
+#visualizer{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:flex-end;
+
+    gap:3px;
+
+    height:25px;
+
+    margin-bottom:15px;
+}
+
+.bar{
+
+    width:4px;
+
+    background:#ff8fc7;
+
+    border-radius:10px;
+
+    animation:bounce 0.8s infinite alternate;
+}
+
+.bar:nth-child(2){animation-delay:0.1s;}
+.bar:nth-child(3){animation-delay:0.2s;}
+.bar:nth-child(4){animation-delay:0.3s;}
+.bar:nth-child(5){animation-delay:0.4s;}
+.bar:nth-child(6){animation-delay:0.2s;}
+.bar:nth-child(7){animation-delay:0.1s;}
+
+@keyframes bounce{
+
+    from{height:6px;}
+    to{height:22px;}
+}
+
+#progressBar{
+
+    width:100%;
+
+    accent-color:#ff8fc7;
+}
+
+#timeDisplay{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-top:6px;
+
+    color:#b3b3b3;
+
+    font-size:12px;
+}
+
+#playPauseBtn{
+
+    width:60px;
+
+    height:60px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#ff8fc7;
+
+    color:white;
+
+    font-size:24px;
+
+    cursor:pointer;
+
+    margin-top:15px;
+}
+
+
+</style>
+</head>
+
+<body>
+
+<div id="instruction">
+    Click to Open the Letter 🤍
+</div>
+
+<div id="stage">
+
+    <img src="cover.png"
+         id="cover"
+         class="stage-img"
+         onclick="openLetter()">
+
+    <img src="opened_cover.png"
+         id="openedCover"
+         class="stage-img"
+         style="display:none;">
+
+    <div id="letterContainer">
+
+        <div class="letter-page">
+
+            <div id="letterText"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div id="musicPlayer">
+
+    <img src="songcover.jpg" id="albumArt">
+
+    <div id="songTitle">
+        Me and My Husband
+    </div>
+
+    <div id="artistName">
+        Mitski
+    </div>
+
+    <div id="visualizer">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
+
+    <input
+        type="range"
+        id="progressBar"
+        value="0"
+        min="0"
+        max="100">
+
+    <div id="timeDisplay">
+        <span id="currentTime">0:00</span>
+        <span id="duration">0:00</span>
+    </div>
+
+    <button id="playPauseBtn">⏸</button>
+
+</div>
+
+
+
+<div id="continueFrame">
+
+    <button id="continueBtn" onclick="goNext()">
+        Continue 🤍
+    </button>
+
+</div>
+
+<audio id="bgMusic">
+    <source src="2nd.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+
+
+const lines = [
+
+"Happy Birthday Kalai! 🎂🤍",
+"I hope this year brings you happiness, peace, and success in everything you work for. Never let yourself down or doubt your worth, because you're so much more capable, stronger, and amazing than you realize.",
+"Keep chasing your dreams, keep smiling, and keep being the wonderful person you are. No matter what happens.",
+"You're a story still being written,",
+"A melody still finding its song.",
+"May every chapter bring you joy,",
+"And every storm make you strong.",
+"For you are far more than you see,",
+"A soul brighter than you believe. ✨",
+"May your dreams find wings beneath the sky,",
+"May your smile never learn to say goodbye.",
+"Like stars that quietly light the night,",
+"May you always find your path and shine bright.",
+"And when the road feels long or unclear,",
+"Remember, you'll never walk alone—I'll always be here. 🤍",
+"Happy Birthday once again! ✨🎉"
+
+];
+
+
+function openLetter(){
+
+    document.getElementById("instruction").style.display="none";
+
+    const music=document.getElementById("bgMusic");
+    music.play().catch(()=>{});
+
+    document.getElementById("cover").style.display="none";
+    document.getElementById("openedCover").style.display="block";
+
+    setTimeout(()=>{
+
+        document.getElementById("openedCover").style.display="none";
+        
+document.getElementById("letterContainer").style.display="block";
+
+document.getElementById("musicPlayer").style.display="block";
+
+typeLines();
+
+
+
+    },1200);
+}
+
+function typeLines(){
+
+    const container=document.getElementById("letterText");
+
+    let lineIndex=0;
+
+    function typeLine(){
+
+        if(lineIndex < lines.length){
+
+            const line=document.createElement("div");
+            container.appendChild(line);
+
+            let charIndex=0;
+
+            function typeChar(){
+
+                if(charIndex < lines[lineIndex].length){
+
+                    line.innerHTML += lines[lineIndex].charAt(charIndex);
+
+                    charIndex++;
+
+                    setTimeout(typeChar,25);
+
+                }else{
+
+                    lineIndex++;
+
+                    setTimeout(typeLine,500);
+                }
+            }
+
+            typeChar();
+
+        }else{
+
+            document.getElementById("continueFrame").style.display="flex";
+        }
+    }
+
+    typeLine();
+}
+
+const audio = document.getElementById("bgMusic");
+
+const playPauseBtn = document.getElementById("playPauseBtn");
+
+const progressBar = document.getElementById("progressBar");
+
+const currentTime = document.getElementById("currentTime");
+
+const duration = document.getElementById("duration");
+
+playPauseBtn.addEventListener("click", () => {
+
+    if(audio.paused){
+
+        audio.play();
+
+        playPauseBtn.innerHTML = "⏸";
+
+    }else{
+
+        audio.pause();
+
+        playPauseBtn.innerHTML = "▶";
+    }
+});
+
+audio.addEventListener("loadedmetadata", () => {
+
+    duration.textContent = formatTime(audio.duration);
+});
+
+audio.addEventListener("timeupdate", () => {
+
+    progressBar.value =
+        (audio.currentTime / audio.duration) * 100;
+
+    currentTime.textContent =
+        formatTime(audio.currentTime);
+});
+
+progressBar.addEventListener("input", () => {
+
+    audio.currentTime =
+        (progressBar.value / 100) * audio.duration;
+});
+
+function formatTime(seconds){
+
+    let mins = Math.floor(seconds / 60);
+
+    let secs = Math.floor(seconds % 60);
+
+    if(secs < 10){
+        secs = "0" + secs;
+    }
+
+    return mins + ":" + secs;
+}
+
+
+
+function goNext(){
+
+    window.location.href="Journey.html";
+}
+
+</script>
+
+</body>
+</html>
+
