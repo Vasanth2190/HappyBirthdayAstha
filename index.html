@@ -169,7 +169,7 @@ body{
     width:100%;
     max-width:320px;
 
-    margin:25px auto 0 auto;
+    margin:30px auto 0 auto;
 
     background:#121212;
 
@@ -324,6 +324,50 @@ body{
 
 <!-- Spotify Card -->
 
+
+<div id="container">
+
+    <div id="readyScreen">
+
+        <div id="question">Are you ready? 🤍</div>
+
+        <div class="buttonRow">
+
+            <button class="btn" onclick="startJourney()">Yes</button>
+
+            <button class="btn" onclick="startJourney()">Of Course</button>
+
+        </div>
+
+    </div>
+
+    <div id="messageScreen" style="display:none;">
+
+        <div id="message" class="fadeText"></div>
+
+    </div>
+
+   
+
+        <div id="forgiveScreen" style="display:none;">
+
+    <div id="question">
+        Do you forgive me for forgetting your birthday? 🥺
+    </div>
+
+    <div id="forgiveArea">
+
+        <button class="btn" id="yesBtn">
+            Yes 🤍
+        </button>
+
+        <button class="btn" id="noBtn">
+            No 😤
+        </button>
+
+    </div>
+
+</div></div>
 <div id="musicPlayer">
 
     <img src="1stcover.jpg" id="albumArt">
@@ -353,49 +397,6 @@ body{
 
 </div>
 
-<div id="container">
-
-    <div id="readyScreen">
-
-        <div id="question">Are you ready? 🤍</div>
-
-        <div class="buttonRow">
-
-            <button class="btn" onclick="startJourney()">Yes</button>
-
-            <button class="btn" onclick="startJourney()">Of Course</button>
-
-        </div>
-
-    </div>
-
-    <div id="messageScreen" style="display:none;">
-
-        <div id="message" class="fadeText"></div>
-
-    </div>
-
-    <div id="forgiveScreen">
-
-        <div id="question">
-            Do you forgive me for forgetting your birthday? 🥺
-        </div>
-
-        <div id="forgiveArea">
-
-            <button class="btn" id="yesBtn">
-                Yes 🤍
-            </button>
-
-            <button class="btn" id="noBtn">
-                No 😤
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
 
 <audio id="bgMusic">
     <source src="1st.mp3" type="audio/mpeg">
